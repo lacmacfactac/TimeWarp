@@ -42,7 +42,7 @@
     },
     {
       "name": "/actions/default/in/Warp",
-      "type": "vector1"
+      "type": "vector2"
     },
     {
       "name": "/actions/default/out/Haptic",

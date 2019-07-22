@@ -8,7 +8,7 @@ public class TimeWarp : MonoBehaviour
     public float minimumTimeSpeed = 1;
     Animator[] animatorList;
     float rawSpeed = 1;
-    float speed = 1;
+    public float speed = 1;
     bool updated = false;
 
 
@@ -16,27 +16,26 @@ public class TimeWarp : MonoBehaviour
     void Start()
     {
         animatorList = GameObject.FindObjectsOfType<Animator>();
+        foreach (Animator controller in animatorList)
+        {
+            controller.SetFloat("Speed", speed);
+        }
     }
 
 
-    public float Speed
+    public float SetSpeed(float value)
     {
-        get
-        {
-            return rawSpeed;
-        }
-
-        set
-        {
             if (value != rawSpeed)
             {
+
                 rawSpeed = value;
-                speed = Mathf.Lerp(minimumTimeSpeed, maximumTimeSpeed, rawSpeed);
+                speed = Mathf.Clamp(rawSpeed,minimumTimeSpeed, maximumTimeSpeed);
                 foreach (Animator controller in animatorList)
                 {
-                    controller.speed = speed;
+                    controller.SetFloat("Speed", speed);
                 }
             }
-        }
+
+        return speed;
     }
 }

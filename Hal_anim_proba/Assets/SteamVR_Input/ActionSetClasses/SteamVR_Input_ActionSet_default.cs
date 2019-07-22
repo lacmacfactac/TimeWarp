@@ -89,7 +89,7 @@ namespace Valve.VR
             }
         }
         
-        public virtual SteamVR_Action_Single Warp
+        public virtual SteamVR_Action_Vector2 Warp
         {
             get
             {

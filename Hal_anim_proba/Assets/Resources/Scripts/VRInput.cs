@@ -7,7 +7,8 @@ public class VRInput : MonoBehaviour
 {
     public SteamVR_ActionSet actionset;
     public SteamVR_Input_Sources inputSource;
-    public SteamVR_Action_Single timeWarpInput;
+    public SteamVR_Action_Vector2 timeWarpInput;
+    public float sensitivity = 0.1f;
 
     TimeWarp timeWarp;
 
@@ -18,19 +19,20 @@ public class VRInput : MonoBehaviour
         timeWarp = gameObject.GetComponent<TimeWarp>();
 
         actionset.Activate();
-        timeWarpInput[inputSource].onChange += OnWarpChanged;
+        timeWarpInput[inputSource].onChange += OnWarpAction; ;
         
     }
 
-    private void OnWarpChanged(SteamVR_Action_Single fromAction, SteamVR_Input_Sources fromSource, float newAxis, float newDelta)
+    private void OnWarpAction(SteamVR_Action_Vector2 fromAction, SteamVR_Input_Sources fromSource, Vector2 axis, Vector2 delta)
     {
-        Debug.Log("New value: " + newAxis.ToString());
-        warpRaw = newAxis;
+        warpRaw+=axis.y*sensitivity;
     }
 
     // Update is called once per frame
     void Update()
     {
-        timeWarp.Speed = warpRaw;
+        float result = timeWarp.SetSpeed(warpRaw);
+        Debug.Log(result);
+        warpRaw = result;
     }
 }
